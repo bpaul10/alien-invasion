@@ -211,7 +211,7 @@ class AlienInvasion:
         """respond to the ship being hit by an alien"""
         if self.stats.ships_left > 0:
 
-            #decrement ships_left
+            #decrement ships_left, and update scoreboard
             self.stats.ships_left -=1
             self.sb.prep_ships()
             #get rid of any remaining bullets and aliens

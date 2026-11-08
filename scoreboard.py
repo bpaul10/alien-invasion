@@ -28,7 +28,7 @@ class Scoreboard:
     def prep_score(self):
         """turn the score into a rendered image"""
         rounded_score = round(self.stats.score, -1)
-        score_str = f"{rounded_score:,}"
+        score_str = f"{rounded_score:}"
         score_str = str(self.stats.score)
         self.score_image = self.font.render(
             score_str, True, self.text_color, self.settings.bg_color
@@ -62,7 +62,7 @@ class Scoreboard:
 
     def check_high_score(self):
         """checks if there is a new high score"""
-        if self.stats.score > self.high_score:
+        if self.stats.score > self.stats.high_score:
             self.stats.high_score = self.stats.score
             self.prep_high_score()
 
