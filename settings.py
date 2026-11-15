@@ -13,6 +13,8 @@ class Settings:
         #ships settings
         self.ship_speed = 1.5
         self.ship_limit = 3
+        self.ship_health = 100 #adding ship health to the game
+
 
         # Bullet settings
         self.bullet_speed = 2.5
@@ -30,6 +32,28 @@ class Settings:
         self.speedup_scale = 1.1
         # how quicklyt he alien point value increases
         self.score_scale = 1.5
+
+        # Having different shooting types normal and rapid
+        self.normal_shooting_speed = 2.5
+        self.rapid_shooting_speed = 5.0
+
+        # Going to make a triple shot
+        self.triple_shot_time = 3 #will have triple shot for 3 seconds
+        self.triple_shot_cooldown = 4 #will have a 4 second cooldown
+
+        # settings for rapid firing 
+        self.rapid_firing_time = 3 #will have rapid firing for 3 seconds
+        self.rapid_firing_cooldown = 4 #will have a 4 second cooldown
+
+        #settings for the shield
+        self.shield_time = 3 #will have the shield for 3 seconds
+        self.shield_cooldown = 4 #will have a 4 second cooldown
+
+        #shield ability color 
+        self.shield_color = (0, 0, 255)
+
+
+
 
 
         self.initialize_dynamic_settings()
