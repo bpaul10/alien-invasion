@@ -23,17 +23,18 @@ class Vault:
         """firing bullets by using the current firing mode"""
         current_time = pygame.time.get_ticks() #using the pygame library this will get the current time in milliseconds 
 
-        #check the current shooting speed
-        if self.ship.rapid_fire_active:
-            shooting_speed = self.settings.rapid_shooting_speed
-        else:
-            shooting_speed = self.settings.normal_shooting_speed
 
-        #going to check if enough time has passed since the last shot was fired
-        if current_time - self.time_last_shot < shooting_speed:
+        if(current_time - self.time_last_shot<self.settings.normal_shooting_speed):
             return
 
-        if len(self.bullets) >= self.settings.bullets_allowed:
+        if self.ship.triple_shot_active:
+            angles = [-15, 0, 15]
+
+        else:
+            angles = [0]
+
+        
+        if len(self.bullets) + len(angles) > self.settings.bullets_allowed:
             return
 
         self.time_last_shot = current_time
@@ -65,4 +66,3 @@ class Vault:
         """this will draw the bullets on the screen"""
         for bullet in self.bullets.sprites():
             bullet.draw()
-            
