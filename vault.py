@@ -65,4 +65,4 @@ class Vault:
     def draw(self):
         """this will draw the bullets on the screen"""
         for bullet in self.bullets.sprites():
-            bullet.draw()
+            bullet.draw_bullet()
