@@ -21,7 +21,7 @@ class Settings:
         self.bullet_width = 3
         self.bullet_height = 15
         self.bullet_color = (60, 60, 60)
-        self.bullets_allowed = 3
+        self.bullets_allowed = 9 
         # Alien settings
         self.alien_speed = 1.0
         self.fleet_drop_speed = 10
@@ -34,7 +34,7 @@ class Settings:
         self.score_scale = 1.5
 
         # Having different shooting types normal and rapid
-        self.normal_shooting_speed = 2.5
+        self.normal_shooting_speed = 350 
         self.rapid_shooting_speed = 5.0
 
         # Going to make a triple shot
@@ -52,8 +52,9 @@ class Settings:
         #shield ability color 
         self.shield_color = (0, 0, 255)
 
-
-
+        #damage settings
+        self.damage_amount=25
+        self.damage_cooldown =1000
 
 
         self.initialize_dynamic_settings()
