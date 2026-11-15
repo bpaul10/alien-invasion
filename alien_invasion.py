@@ -9,6 +9,7 @@ from button import Button
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
+from vault import Vault
 
 
 
@@ -31,13 +32,18 @@ class AlienInvasion:
         self.sb = Scoreboard(self)
 
         self.ship = Ship(self)
+        self.vault = Vault(self)
+        
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
         self._create_fleet()
+        self._create_alien()
 
         #start Alien Invasion in an active state
         self.game_active = False
         self.play_button = Button(self, "Play")
+        self.game_over = False
+        
 
     def run_game(self):
         """Start the main loop for the game."""
@@ -47,7 +53,8 @@ class AlienInvasion:
                 self.ship.update()
                 self._update_aliens()
                 self._update_bullets()
-
+                self.vault.update()
+                self._check_bullet_alien_collisions()
             self._update_screen()
             self.clock.tick(60)
 
@@ -103,7 +110,21 @@ class AlienInvasion:
         elif event.key == pygame.K_q:
             sys.exit()
         elif event.key == pygame.K_SPACE:
-            self._fire_bullet()
+            if not self.game_over:
+                self.vault.fire()
+
+        elif event.key == pygame.K_s:
+            if not self.game_over:
+                self.ship.activate_shield()
+
+        elif event.key == pygame.K_t:
+            if not self.game_over:
+                self.ship.activate_triple_shot()
+
+        elif event.key == pygame.K_r:
+            if self.game_over:
+                self._restart_game()
+
     def _check_keyup_events(self, event):
         """Respond to key releases."""
         if event.key == pygame.K_RIGHT:
@@ -128,7 +149,17 @@ class AlienInvasion:
                  self.bullets.remove(bullet)
 
         self._check_bullet_alien_collisions()
+    def _check_bullet_collisions(self):
+        """Remove aliens when bullets hit them."""
+        pygame.sprite.groupcollide(
+            self.arsenal.bullets,
+            self.aliens,
+            True,
+            True
+        )
 
+        if not self.aliens:
+            self._create_alien()
     def _check_bullet_alien_collisions(self):
         """Respond to bullet-alien collisions."""
         # Remove any bullets and aliens that have collided.
@@ -172,12 +203,16 @@ class AlienInvasion:
                 #finished a rowl reset x value, and incremented y value 
             current_x = alien_width
             current_y += 2 * alien_height
-    def _create_alien(self, x_position, y_position):
+    def _create_alien(self): #might have to add back in x_position, y_position
         """Create an alien and place it in the fleet"""
         new_alien = Alien(self)
+        """     
+        probably wont need this part of code anymore but keeping in case 
         new_alien.x = x_position
         new_alien.rect.x = x_position
         new_alien.rect.y = y_position
+        
+        """
         self.aliens.add(new_alien)
 
 
@@ -187,11 +222,23 @@ class AlienInvasion:
         self._check_fleet_edges()
         self.aliens.update()
 
-        #look for alien ship collusion
-        if pygame.sprite.spritecollideany(self.ship, self.aliens):
-            self._ship_hit()
-        #look for aliens hitting the bottom of the screen
-        self._check_aliens_bottom()
+        for alien in self.aliens.sprites():
+            if alien.rect.colliderect(self.ship.rect):
+
+                if self.ship.shield_active:
+                    alien.reset_position()
+
+                elif self.ship.take_damage():
+                    alien.reset_position()
+
+                    if self.ship.health <= 0:
+                        self.game_over = True
+
+            elif alien.rect.top >= self.settings.screen_height:
+                alien.reset_position()
+            
+
+
     def _check_fleet_edges(self):
         """Respond appropriately if any aliens have reached an edge"""
         for alien in self.aliens.sprites():
@@ -232,9 +279,60 @@ class AlienInvasion:
         for alien in self.aliens.sprites():
             if alien.rect.bottom >= self.settings.screen_height:
                 #treat thois same as if the ship got hit
-                self._ship_hit
+                self._ship_hit()
                 break 
-    
+
+    def _restart_game(self):
+        """will reset the player and enemy for another game """
+        self.ship.health = self.settings.ship_health
+        self.ship.center_ship()
+
+        self.ship.shield_active = False
+        self.ship.triple_shot_active = False
+        self.ship.shield_end_time = 0
+        self.ship.triple_shot_end_time = 0
+        self.vault.bullets.empty()
+        self.aliens.empty()
+        self._create_alien()
+        self.game_over = False
+        self.game_active = True #might not need this part
+
+
+    def _draw_health_bar(self):
+        """drawing the players health bar"""
+        bar_x =20
+        bar_y = 20
+        bar_width = 200
+        bar_height = 25
+        pygame.draw.rect(self.screen, (100, 100, 100), (bar_x, bar_y, bar_width, bar_height))
+
+        health_width = int(bar_width * (self.ship.health / self.settings.ship_health))
+
+        if self.ship.health > 50:
+            health_color = (0, 200, 0)
+        elif self.ship.health > 25:
+            health_color = (255, 165, 0)
+        else:
+            health_color = (255, 0, 0)
+
+        pygame.draw.rect(self.screen, health_color, (bar_x, bar_y, health_width, bar_height))
+
+
+        health_text = self.font.render(f"Health: {self.ship.health}", True, (255, 255, 255))
+        self.screen.blit(health_text, (20,55))
+
+    def _draw_ability_status(self):
+        """display if the shield and triple shot ability are active"""
+        shield_status = ("ACTIVE" if self.ship.shield_active else "INACTIVE")
+
+        triple_shot_status = ("ACTIVE" if self.ship.triple_shot_active else "INACTIVE")
+        shield_text = self.font.render(f"Shield (S): {shield_status}", True, self.settings.shield_color)
+        triple_shot_text = self.font.render(f"Triple Shot (T): {triple_shot_status}", True, (150, 0,150))
+
+        self.screen.blit(shield_text, (20, 90))
+        self.screen.blit(triple_shot_text, (20, 120))
+
+
     def _update_screen(self):
         """update image on the screen, and flip to the new screen."""
 
@@ -244,10 +342,17 @@ class AlienInvasion:
             bullet.draw_bullet()
         self.ship.blitme()
         self.aliens.draw(self.screen)
+        self.vault.draw(self.screen)
+        self._draw_health_bar()
+        self._draw_ability_status()
 
         # draw the score information
         self.sb.show_score()
 
+        if self.game_over:
+            game_over_text = pygame.font.SysFont(None, 70).render("Game over - r to restart", True, (200, 0, 0))
+            text_rect = game_over_text.get_rect(center=self.screen.get_rect().center)
+            self.screen.blit(game_over_text, text_rect)
         # draw the play buitton if the game is inactive
         if not self.game_active:
             self.play_button.draw_button()
@@ -255,6 +360,7 @@ class AlienInvasion:
 
 
             #Make the most recently drawn screeen visible
+        
         pygame.display.flip()
 
     
