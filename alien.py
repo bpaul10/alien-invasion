@@ -1,3 +1,12 @@
+"""
+program name: ultra alien invasion
+Author: Bernard Paul 
+Purpose:this file manages the alien sprite
+starter link:
+date updated: 11/15/26
+
+"""
+
 import pygame
 from pygame.sprite import Sprite
 

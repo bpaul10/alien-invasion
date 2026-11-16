@@ -1,3 +1,13 @@
+"""
+program name: ultra alien invasion
+Author: Bernard Paul 
+Purpose: manages the scoreboard for the game but is no longer used for milstone 1
+starter link:
+date updated: 11/15/26
+
+"""
+
+
 import pygame.font
 from pygame.sprite import Group
 from ship import Ship

@@ -1,9 +1,9 @@
 """
-Program name: Ultra Alien Invasion
-Author: Bernard Paul
-Purpose: bullet class that is managing the players projectiles 
-Date: 11/14/2026
-
+program name: ultra alien invasion
+Author: Bernard Paul 
+Purpose: this manages the bullets that come from the alien ship
+starter link:
+date updated: 11/15/26
 
 """
 

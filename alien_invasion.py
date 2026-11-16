@@ -1,3 +1,11 @@
+"""
+program name: ultra alien invasion
+Author: Bernard Paul 
+Purpose: this is the main alien invasion file that runs the main game 
+starter link:
+date updated: 11/15/26
+
+"""
 import sys
 from time import sleep
 import pygame 
@@ -19,29 +27,33 @@ class AlienInvasion:
     def __init__(self):
         """Initialize the game, cand create game resources"""
         pygame.init()
-        self.clock = pygame.time.Clock()
-        self.settings = Settings()
-        self.font = pygame.font.SysFont(None, 36)
-        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+
+        self.clock = pygame.time.Clock() #creates the game clock which controls frame rate
+        self.settings = Settings() #loads the game settings
+        self.font = pygame.font.SysFont(None, 36) #making the font for the displaying health and ability info 
+        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN) #creates the game window in full screen
+        #screen dimensions of the game based off the actual screen
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
-        pygame.display.set_caption("Alien Invasion")
+        #displays the game name 
+        pygame.display.set_caption("Ultra Alien Invasion -Track 1 Mechnics")
 
         # Create an instance to store game statistics.
         self.stats = GameStats(self)
-        self.sb = Scoreboard(self)
+        #self.sb = Scoreboard(self)
 
         self.ship = Ship(self)
-        self.vault = Vault(self)
+        self.vault = Vault(self) #vault manages the players bullets 
+
         
-        self.bullets = pygame.sprite.Group()
-        self.aliens = pygame.sprite.Group()
+        self.bullets = pygame.sprite.Group() #makes the group that stores the bullets
+        self.aliens = pygame.sprite.Group() #makes the group the stores the aliens
         #self._create_fleet()
-        self._create_alien()
+        self._create_alien() #will create an alien
 
         #start Alien Invasion in an active state
         self.game_active = True
-        self.play_button = Button(self, "Play")
+        #self.play_button = Button(self, "Play")  
         self.game_over = False
         
 
@@ -49,7 +61,7 @@ class AlienInvasion:
         """Start the main loop for the game."""
         while True:
             self._check_events()
-            if self.game_active:
+            if self.game_active and not self.game_over:
                 self.ship.update()
                 self._update_aliens()
                 self._update_bullets()
@@ -84,9 +96,9 @@ class AlienInvasion:
             self.settings.initialize_dynamic_settings()
             #will reset the game statistics
             self.stats.reset_stats()
-            self.sb.prep_score()
-            self.sb.prep_level()
-            self.sb.prep_ships()
+            #self.sb.prep_score()
+            #self.sb.prep_level()
+            #self.sb.prep_ships()
 
 
 
@@ -213,6 +225,9 @@ class AlienInvasion:
 
     def _update_aliens(self):
         """check if the fleet is at an edge then update positions"""
+        if self.game_over or not self.game_active:
+            return
+
         self._check_fleet_edges()
         self.aliens.update()
 
@@ -254,7 +269,7 @@ class AlienInvasion:
 
             #decrement ships_left, and update scoreboard
             self.stats.ships_left -=1
-            self.sb.prep_ships()
+            #self.sb.prep_ships()
             #get rid of any remaining bullets and aliens
             self.bullets.empty()
             self.aliens.empty()
@@ -341,7 +356,7 @@ class AlienInvasion:
         self._draw_ability_status()
 
         # draw the score information
-        self.sb.show_score()
+        #self.sb.show_score()
 
         if self.game_over:
             game_over_text = pygame.font.SysFont(None, 70).render("Game over - r to restart", True, (200, 0, 0))

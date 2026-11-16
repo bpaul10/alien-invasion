@@ -2,7 +2,8 @@
 program name: ultra alien invasion
 Author: Bernard Paul 
 Purpose: this will manage the ship movement health shield and triple shot
-date: 11/15/26
+starter link:
+date updated: 11/15/26
 
 """
 

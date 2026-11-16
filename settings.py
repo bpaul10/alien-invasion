@@ -1,4 +1,11 @@
+"""
+program name: ultra alien invasion
+Author: Bernard Paul 
+Purpose: this will manage the settings of the game such as the bullet speed, cooldown times, ect. 
+starter link:
+date updated: 11/15/26
 
+"""
 
 class Settings:
     """ A class to store all the settings for alien invasion"""
@@ -35,19 +42,19 @@ class Settings:
 
         # Having different shooting types normal and rapid
         self.normal_shooting_speed = 350 
-        self.rapid_shooting_speed = 5.0
+        self.rapid_shooting_speed = 500.0
 
         # Going to make a triple shot
-        self.triple_shot_time = 3 #will have triple shot for 3 seconds
-        self.triple_shot_cooldown = 4 #will have a 4 second cooldown
+        self.triple_shot_time = 3000 #will have triple shot for 3 seconds
+        self.triple_shot_cooldown = 4000 #will have a 4 second cooldown
 
         # settings for rapid firing 
-        self.rapid_firing_time = 3 #will have rapid firing for 3 seconds
-        self.rapid_firing_cooldown = 4 #will have a 4 second cooldown
+        self.rapid_firing_time = 3000 #will have rapid firing for 3 seconds
+        self.rapid_firing_cooldown = 4000 #will have a 4 second cooldown
 
         #settings for the shield
-        self.shield_time = 3 #will have the shield for 3 seconds
-        self.shield_cooldown = 4 #will have a 4 second cooldown
+        self.shield_time = 3000 #will have the shield for 3 seconds
+        self.shield_cooldown = 4000 #will have a 4 second cooldown
 
         #shield ability color 
         self.shield_color = (0, 0, 255)

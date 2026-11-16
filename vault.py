@@ -2,7 +2,8 @@
 Program name: Ultra Alien Invasion
 Author: Bernard Paul
 Purpose: vault class that is managing the player's available boosters (possibly) and bullet types along with firing modes
-Date: 11/14/2026
+starter code:
+Date Updated: 11/15/2026
 """
 import pygame
 from bullet import Bullet
