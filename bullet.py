@@ -1,10 +1,22 @@
+"""
+program name: ultra alien invasion
+Author: Bernard Paul 
+Purpose: this manages the bullets that come from the alien ship
+starter link:
+date updated: 11/15/26
+
+"""
+
+
+import math #going to be using math import for calculations and angles 
 import pygame
 from pygame.sprite import Sprite
 
 class Bullet(Sprite):
     """ class to manage bullets fired from the ship."""
 
-    def __init__(self, ai_game):
+
+    def __init__(self, ai_game, angle=0): 
         """create a bullet object at the ship's current position."""
         super().__init__()
         self.screen = ai_game.screen
@@ -18,15 +30,24 @@ class Bullet(Sprite):
 
         # Store the bullet's position as a float.
         self.y = float(self.rect.y)
+        self.x = float(self.rect.x) #have to make a x value 
 
+        #gpoing to have an angel for the projectiles now which will be in radians
+        radians = math.radians(angle) #using the math import we can do angles in radians 
+
+        #we will now be having velocity components based on the angle (might switch to degrees instead of rad)
+        self.velocity_x = self.settings.bullet_speed * math.sin(radians)
+        self.velocity_y = -self.settings.bullet_speed * math.cos(radians)
 
 
     def update(self):
         """Move the bullet up the screen"""
 
-        #update the exact position of the bullet
-        self.y -= self.settings.bullet_speed
-        #update teh rext posoition
+        #update the exact position of the bullet now having it in x and y values 
+        self.x += self.velocity_x
+        self.y += self.velocity_y
+        #update the rect position with x and y values 
+        self.rect.x = self.x
         self.rect.y = self.y
 
 

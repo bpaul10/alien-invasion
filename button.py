@@ -1,3 +1,11 @@
+"""
+program name: ultra alien invasion
+Author: Bernard Paul 
+Purpose: this is no longer relevant to the main game for milestone 1 but in original game it was button to start game
+starter link:
+date updated: 11/15/26
+
+"""
 import pygame.font
 
 class Button:

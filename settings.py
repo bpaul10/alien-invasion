@@ -1,4 +1,11 @@
+"""
+program name: ultra alien invasion
+Author: Bernard Paul 
+Purpose: this will manage the settings of the game such as the bullet speed, cooldown times, ect. 
+starter link:
+date updated: 11/15/26
 
+"""
 
 class Settings:
     """ A class to store all the settings for alien invasion"""
@@ -13,13 +20,15 @@ class Settings:
         #ships settings
         self.ship_speed = 1.5
         self.ship_limit = 3
+        self.ship_health = 100 #adding ship health to the game
+
 
         # Bullet settings
         self.bullet_speed = 2.5
         self.bullet_width = 3
         self.bullet_height = 15
         self.bullet_color = (60, 60, 60)
-        self.bullets_allowed = 3
+        self.bullets_allowed = 9 
         # Alien settings
         self.alien_speed = 1.0
         self.fleet_drop_speed = 10
@@ -30,6 +39,29 @@ class Settings:
         self.speedup_scale = 1.1
         # how quicklyt he alien point value increases
         self.score_scale = 1.5
+
+        # Having different shooting types normal and rapid
+        self.normal_shooting_speed = 350 
+        self.rapid_shooting_speed = 500.0
+
+        # Going to make a triple shot
+        self.triple_shot_time = 3000 #will have triple shot for 3 seconds
+        self.triple_shot_cooldown = 4000 #will have a 4 second cooldown
+
+        # settings for rapid firing 
+        self.rapid_firing_time = 3000 #will have rapid firing for 3 seconds
+        self.rapid_firing_cooldown = 4000 #will have a 4 second cooldown
+
+        #settings for the shield
+        self.shield_time = 3000 #will have the shield for 3 seconds
+        self.shield_cooldown = 4000 #will have a 4 second cooldown
+
+        #shield ability color 
+        self.shield_color = (0, 0, 255)
+
+        #damage settings
+        self.damage_amount=25
+        self.damage_cooldown =1000
 
 
         self.initialize_dynamic_settings()
